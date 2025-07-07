@@ -1,3 +1,4 @@
+import os
 from flask import Flask
 import mysql.connector
 
@@ -7,10 +8,10 @@ app = Flask(__name__)
 def healthcheck():
     # Poveži se na MySQL
     connection = mysql.connector.connect(
-        host="mysql",  # Ime servisa iz docker-compose.yml
-        user="root",
-        password="MySQLPassword",
-        database="sistem_za_regrutaciju"
+        host=os.environ.get("MYSQL_HOST", "localhost"),  # Varijabla okruženja za MySQL host
+        user=os.environ.get("MYSQL_USER", "root"),      # Varijabla okruženja za MySQL korisnika
+        password=os.environ.get("MYSQL_PASSWORD", "MySQLPassword"),  # Varijabla okruženja za MySQL lozinku
+        database=os.environ.get("MYSQL_DATABASE", "sistem_za_regrutaciju")  # Varijabla okruženja za MySQL bazu
     )
     cursor = connection.cursor()
     cursor.execute("SELECT 'Hello from Flask and MySQL!'")
