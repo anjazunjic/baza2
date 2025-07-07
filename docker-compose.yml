@@ -13,7 +13,7 @@ services:
     networks:
       - mynetwork
     healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      test: ["CMD", "mysqladmin", "ping", "-h", "mysql"]
       interval: 30s
       retries: 3
       start_period: 30s
@@ -26,7 +26,7 @@ services:
     depends_on:
       - mysql
     environment:
-      MYSQL_HOST: mysql  # This should match the service name in docker-compose.yml
+      MYSQL_HOST: mysql  # Ovo mora odgovarati imenu servisa MySQL iz docker-compose
       MYSQL_USER: root
       MYSQL_PASSWORD: MySQLPassword
       MYSQL_DATABASE: sistem_za_regrutaciju
