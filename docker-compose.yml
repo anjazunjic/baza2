@@ -1,4 +1,4 @@
-version: '3'
+ersion: '3'
 
 services:
   mysql:
@@ -9,25 +9,24 @@ services:
     ports:
       - "3306:3306"
     volumes:
-      - ./dump.sql:/docker-entrypoint-initdb.d/dump.sql  # Initialize DB with dump.sql
+      - ./dump.sql:/docker-entrypoint-initdb.d/dump.sql
     networks:
       - mynetwork
     healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]  # Ensure MySQL is up before Flask connects
-      interval: 30s  # How often to check if the MySQL server is available
-      retries: 3  # Number of retries before declaring MySQL unavailable
-      start_period: 30s  # Initial delay before starting health checks
-      timeout: 10s  # Timeout for each health check
-    restart: always  # Ensure MySQL service restarts if it crashes
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 30s
+      retries: 3
+      start_period: 30s
+      timeout: 10s
 
   flask:
     build:
       context: .
       dockerfile: Dockerfile-flask
     depends_on:
-      - mysql  # Ensures Flask will wait for MySQL service to be ready
+      - mysql
     environment:
-      MYSQL_HOST: mysql  # 'mysql' is the service name from docker-compose
+      MYSQL_HOST: mysql  # This should match the service name in docker-compose.yml
       MYSQL_USER: root
       MYSQL_PASSWORD: MySQLPassword
       MYSQL_DATABASE: sistem_za_regrutaciju
@@ -35,8 +34,7 @@ services:
       - "8080:8080"
     networks:
       - mynetwork
-    restart: always  # Ensure Flask restarts if it crashes
 
 networks:
   mynetwork:
-    driver: bridge  # Use bridge networking to allow Flask and MySQL to communicate
+    driver: bridge

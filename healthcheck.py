@@ -1,14 +1,14 @@
-from flask import Flask
-import mysql.connector
 import os
+import mysql.connector
+from flask import Flask
 
 app = Flask(__name__)
 
 @app.route('/')
 def healthcheck():
-    # Poveži se na MySQL koristeći environment varijable
+    # Use the hostname 'mysql', not 'localhost'
     connection = mysql.connector.connect(
-        host=os.getenv("MYSQL_HOST", "localhost"),  # Ako ne postoji MYSQL_HOST, koristi localhost
+        host=os.getenv("MYSQL_HOST", "mysql"),  # The MySQL service in Docker Compose
         user=os.getenv("MYSQL_USER", "root"),
         password=os.getenv("MYSQL_PASSWORD", "MySQLPassword"),
         database=os.getenv("MYSQL_DATABASE", "sistem_za_regrutaciju")
