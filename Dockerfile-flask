@@ -1,14 +1,18 @@
-# Koristi Python 3 sliku
-FROM python:3.9-slim
+# Start from a Python image
+FROM python:3.13-slim
 
-# Instaliraj Flask i MySQL konektor
-RUN pip install flask mysql-connector-python
+# Set the working directory
+WORKDIR /app
 
-# Kopiraj Python skriptu
-COPY healthcheck.py /healthcheck.py
+# Install the dependencies
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
 
-# Otvori port za Flask aplikaciju
+# Copy the rest of the application code
+COPY . .
+
+# Expose port 8080 to communicate with the outside world
 EXPOSE 8080
 
-# Pokreni Flask aplikaciju
-CMD ["python3", "/healthcheck.py"]
+# Start the application using gunicorn
+CMD ["gunicorn", "app:app", "--bind", "0.0.0.0:8080"]
