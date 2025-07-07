@@ -1,13 +1,24 @@
-# healthcheck.py
+from flask import Flask
+import mysql.connector
 
-from http.server import HTTPServer, BaseHTTPRequestHandler
+app = Flask(__name__)
 
-class SimpleHandler(BaseHTTPRequestHandler):
-    def do_GET(self):
-        self.send_response(200)
-        self.end_headers()
-        self.wfile.write(b"OK")
+@app.route('/')
+def health_check():
+    try:
+        # Poveži se sa MySQL serverom
+        conn = mysql.connector.connect(
+            host="localhost",  # MySQL server je u istom kontejneru
+            user="root",
+            password="MySQLPassword",
+            database="sistem_za_regrutaciju"
+        )
+        if conn.is_connected():
+            return "MySQL server is up and running!"
+        else:
+            return "Failed to connect to MySQL."
+    except Exception as e:
+        return f"Error: {str(e)}"
 
-# Pokrećemo server na portu 8080
-httpd = HTTPServer(('0.0.0.0', 8080), SimpleHandler)
-httpd.serve_forever()
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=8080)
