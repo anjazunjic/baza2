@@ -3,7 +3,7 @@ version: '3'
 services:
   mysql:
     build:
-      context: .
+      context: . 
       dockerfile: Dockerfile-mysql
     environment:
       MYSQL_ROOT_PASSWORD: MySQLPassword
