@@ -1,0 +1,14 @@
+# Koristi Python 3 sliku
+FROM python:3.9-slim
+
+# Instaliraj Flask i MySQL konektor
+RUN pip install flask mysql-connector-python
+
+# Kopiraj Python skriptu
+COPY healthcheck.py /healthcheck.py
+
+# Otvori port za Flask aplikaciju
+EXPOSE 8080
+
+# Pokreni Flask aplikaciju
+CMD ["python3", "/healthcheck.py"]

@@ -1,0 +1,12 @@
+# Koristi MySQL image
+FROM mysql:8.0
+
+# Postavi environment varijable za MySQL
+ENV MYSQL_ROOT_PASSWORD=MySQLPassword
+ENV MYSQL_DATABASE=sistem_za_regrutaciju
+
+# Kopiraj dump.sql za inicijalizaciju baze
+COPY dump.sql /docker-entrypoint-initdb.d/
+
+# Otvori port za MySQL
+EXPOSE 3306
