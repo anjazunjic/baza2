@@ -16,8 +16,8 @@ RUN pip3 install flask mysql-connector-python
 COPY healthcheck.py /healthcheck.py
 
 # Otvori potrebne portove
-EXPOSE 3306    # Port za MySQL
-EXPOSE 8080    # Port za HTTP server
+EXPOSE 3306   
+EXPOSE 8080    
 
 # Pokreni MySQL server i Python HTTP server (health check server)
 CMD ["bash", "-c", "mysqld & python3 /healthcheck.py"]
