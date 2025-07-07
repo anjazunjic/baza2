@@ -3,7 +3,7 @@ version: '3'
 services:
   mysql:
     build:
-      context: . 
+      context: .
       dockerfile: Dockerfile-mysql
     environment:
       MYSQL_ROOT_PASSWORD: MySQLPassword
@@ -13,7 +13,7 @@ services:
     volumes:
       - ./dump.sql:/docker-entrypoint-initdb.d/dump.sql
     networks:
-      - mynetwork  # Define the network that flask will connect to
+      - mynetwork
 
   flask:
     build:
@@ -22,16 +22,15 @@ services:
     depends_on:
       - mysql
     environment:
-      MYSQL_HOST: mysql  # Connect to the 'mysql' service defined in docker-compose
+      MYSQL_HOST: mysql  # The MySQL service defined in docker-compose
       MYSQL_USER: root
       MYSQL_PASSWORD: MySQLPassword
       MYSQL_DATABASE: sistem_za_regrutaciju
     ports:
       - "8080:8080"
     networks:
-      - mynetwork  # Connect to the same network as the mysql service
+      - mynetwork
 
-# Define the network 'mynetwork' for connecting services
 networks:
   mynetwork:
-    driver: bridge  # Standard Docker network
+    driver: bridge

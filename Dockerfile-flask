@@ -15,4 +15,4 @@ COPY . .
 EXPOSE 8080
 
 # Start the application using gunicorn
-CMD ["gunicorn", "healthcheck:app", "--bind", "0.0.0.0:8080"] 
+CMD ["gunicorn", "healthcheck:app", "--bind", "0.0.0.0:8080"]
